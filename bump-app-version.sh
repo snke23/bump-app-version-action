@@ -84,7 +84,8 @@ if [[ "${MODE}" == "publish" ]]; then
     ## upload chart
     helm repo add mittwald https://helm.mittwald.de --force-update
     helm cm-push "${CHART_PATH}" mittwald
-
+    echo "${GITHUB_TOKEN}}" | docker login ghcr.io -u "${GITHUB_ACTOR}" --password-stdin
+    helm push "${CHART_PATH}" "oci://ghcr.io/${GITHUB_REPOSITORY}"
 fi
 
 exit 0
